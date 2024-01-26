@@ -177,3 +177,5 @@ cython_debug/
 #for runs and data
 runs/
 dataset/
+Data/
+models/
