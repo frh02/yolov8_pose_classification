@@ -25,3 +25,8 @@ def change_file_name(folder_path,name_of_file=str):
       print(f'Renamed: {file_name} to {new_file_name}')
 
   print('Renaming completed.')
+
+
+folder_path = input('Enter the folder path: ')
+name_of_file = input('Enter the new file name: ')
+change_file_name(folder_path,name_of_file)
