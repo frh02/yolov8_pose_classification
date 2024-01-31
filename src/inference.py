@@ -56,7 +56,16 @@ current_pose_state = None
 sit_to_stand_start_time = None
 
 
-def get_inference(img):
+sit_frame_number = []
+stand_frame_number  = []
+
+first_sit_pose_detected = False
+count = 0 
+
+# Add a variable to track the current pose state
+current_pose_state = None
+
+def get_inference(img,fps):
     global sit_start_time, stand_start_time, sit_stand_transition_time, count, first_sit_pose_detected
     global current_pose_state, sit_to_stand_start_time
 
@@ -89,14 +98,20 @@ def get_inference(img):
                                 if current_pose_state == 'sit' and not first_sit_pose_detected:
                                     sit_to_stand_start_time = time.time()
                                     first_sit_pose_detected = True
+                                sit_frame_number.append(count)
+                                # Start the sit to stand timer only if the current pose is sit
+                                if current_pose_state == 'sit' and not first_sit_pose_detected:
+                                    sit_to_stand_start_time = time.time()
+                                    first_sit_pose_detected = True
                             elif pose_class == 'stand':
                                 stand_start_time = time.time()
+                                stand_frame_number.append(count)
                                 stand_frame_number.append(count)
 
                             # Check for a transition from Sit to Stand or vice versa
                             if sit_start_time is not None and stand_start_time is not None:
                                 sit_stand_transition_time = stand_start_time - sit_start_time
-                                text = f"Sit to Stand transition time: {sit_stand_transition_time:.2f} seconds"
+                                text = f"Sit to Stand transition time: {sit_stand_transition_time/fps:.2f} seconds"
                                 if sit_stand_transition_time > 0:
                                     cv2.putText(img, text, (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2, cv2.LINE_AA)
                                     print(text)
@@ -109,6 +124,8 @@ def get_inference(img):
                 else:
                     print('[INFO] Predictions are below the given Confidence!!')
     count += 1
+
+
 
 # Keras pose model
 saved_model, meta_str = load_model_ext(args['model'])
@@ -175,17 +192,22 @@ else:
         if not success:
             print('[INFO] Failed to Read...')
             break
-
-        get_inference(img)
-        if args['hide'] is False:
-            frame_count += 1
-            print(f'Frames Completed: {frame_count}/{length}')
-
-        # FPS
+        
         c_time = time.time()
         fps = 1/(c_time-p_time)
         print('FPS: ', fps)
         p_time = c_time
+
+        get_inference(img,fps)
+        if args['hide'] is False:
+            frame_count += 1
+            print(f'Frames Completed: {frame_count}/{length}')
+
+        # # FPS
+        # c_time = time.time()
+        # fps = 1/(c_time-p_time)
+        # print('FPS: ', fps)
+        # p_time = c_time
 
         # Write Video
         if args['save'] or args['hide'] is False:
