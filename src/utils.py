@@ -107,3 +107,37 @@ def save_model_ext(model, filepath, overwrite=True, meta_data=None):
         f = h5py.File(filepath, mode='a')
         f.attrs['my_meta_data'] = meta_data
         f.close()
+
+def calculate_angle(A, B, C):
+    # Calculate vectors AB and BC
+    vector_AB = [B[0] - A[0], B[1] - A[1]]
+    vector_BC = [C[0] - B[0], C[1] - B[1]]
+
+    # Calculate dot product of AB and BC
+    dot_product = vector_AB[0] * vector_BC[0] + vector_AB[1] * vector_BC[1]
+
+    # Calculate magnitudes of vectors
+    magnitude_AB = math.sqrt(vector_AB[0]**2 + vector_AB[1]**2)
+    magnitude_BC = math.sqrt(vector_BC[0]**2 + vector_BC[1]**2)
+
+    # Calculate cosine of the angle
+    cosine_angle = dot_product / (magnitude_AB * magnitude_BC)
+
+    # Calculate angle in radians
+    angle_rad = math.acos(cosine_angle)
+
+    # Convert angle to degrees
+    angle_deg = math.degrees(angle_rad)
+
+    return angle_deg
+
+def calculate_hip_angle(pose):
+    # Replace these indices with the actual indices of hip keypoints in your pose
+    left_hip = pose[11]
+    center_hip = pose[8]
+    right_hip = pose[12]
+
+    # Calculate angle between left hip, center hip, and right hip
+    hip_angle = calculate_angle(left_hip, center_hip, right_hip)
+
+    return hip_angle
