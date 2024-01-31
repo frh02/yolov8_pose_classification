@@ -52,6 +52,19 @@ count = 0
 # Add a variable to track the current pose state
 current_pose_state = None
 
+# Add a variable to track the start time for sit to stand transition
+sit_to_stand_start_time = None
+
+
+sit_frame_number = []
+stand_frame_number  = []
+
+first_sit_pose_detected = False
+count = 0 
+
+# Add a variable to track the current pose state
+current_pose_state = None
+
 def get_inference(img,fps):
     global sit_start_time, stand_start_time, sit_stand_transition_time, count, first_sit_pose_detected
     global current_pose_state, sit_to_stand_start_time
@@ -85,8 +98,14 @@ def get_inference(img,fps):
                                 if current_pose_state == 'sit' and not first_sit_pose_detected:
                                     sit_to_stand_start_time = time.time()
                                     first_sit_pose_detected = True
+                                sit_frame_number.append(count)
+                                # Start the sit to stand timer only if the current pose is sit
+                                if current_pose_state == 'sit' and not first_sit_pose_detected:
+                                    sit_to_stand_start_time = time.time()
+                                    first_sit_pose_detected = True
                             elif pose_class == 'stand':
                                 stand_start_time = time.time()
+                                stand_frame_number.append(count)
                                 stand_frame_number.append(count)
 
                             # Check for a transition from Sit to Stand or vice versa
