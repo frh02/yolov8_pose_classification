@@ -1,6 +1,5 @@
 from ultralytics import YOLO
-from utils import norm_kpts, plot_one_box, plot_skeleton_kpts, load_model_ext
-import pandas as pd
+from utils import load_model_ext
 import cv2
 import time
 import os
@@ -59,7 +58,7 @@ def run(args):
 
     if args.source.endswith('.jpg') or args.source.endswith('.jpeg') or args.source.endswith('.png'):
         img = cv2.imread(args.source)
-        get_inference(img,model,saved_model,class_names,col_names,args.conf,colors )
+        get_inference(img,model,saved_model,class_names,col_names,args.conf,colors,fps)
 
         # save Image
         if args.save or args.hide is False:
@@ -117,17 +116,18 @@ def run(args):
                 print('[INFO] Failed to Read...')
                 break
 
-            get_inference(img,model,saved_model,class_names,col_names,args.conf,colors )
-            if args.hide is False:
-                frame_count += 1
-                print(f'Frames Completed: {frame_count}/{length}')
-
             # FPS
             c_time = time.time()
             fps = 1/(c_time-p_time)
             print('FPS: ', fps)
             p_time = c_time
 
+            get_inference(img,model,saved_model,class_names,col_names,args.conf,colors,fps)
+            if args.hide is False:
+                frame_count += 1
+                print(f'Frames Completed: {frame_count}/{length}')
+
+            
             # Write Video
             if args.save or args.hide is False:
                 out_vid.write(img)
