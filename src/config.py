@@ -8,7 +8,6 @@ stand_frame_number  = []
 
 first_sit_pose_detected = False
 count = 0 
-
 # Add a variable to track the current pose state
 current_pose_state = None
 
