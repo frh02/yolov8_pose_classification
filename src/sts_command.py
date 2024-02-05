@@ -47,7 +47,6 @@ def configure(parser_tug):
         default='yolov8n-pose',
         help="choose type of yolov8 pose model"
         )
-
 def run(args):
     model = YOLO(f"{args.pose}.pt")
 
@@ -58,9 +57,9 @@ def run(args):
 
     if args.source.endswith('.jpg') or args.source.endswith('.jpeg') or args.source.endswith('.png'):
         img = cv2.imread(args.source)
-        # get_inference_sts(img,model,saved_model,class_names,col_names,args.conf,colors)
         counter_list = [0]
-        get_inference_sts(img, model, saved_model, class_names, col_names, args.conf, colors, counter_list, None)
+        state = 'sit'  # Initial state
+        get_inference_sts(img, model, saved_model, class_names, col_names, args.conf, colors, counter_list, state)
 
         # save Image
         if args.save or args.hide is False:
@@ -68,7 +67,7 @@ def run(args):
             path_save = os.path.join('runs', 'detect', os.path.split(args.source)[1])
             cv2.imwrite(path_save, img)
             print(f"[INFO] Saved Image: {path_save}")
-        
+
         # Hide video
         if args.hide:
             cv2.imshow('img', img)
@@ -77,13 +76,13 @@ def run(args):
 
     # Inference on Video/Cam/RTSP
     else:
-        
+
         # Load video/cam/RTSP
         video_path = args.source
         if video_path.isnumeric():
             video_path = int(video_path)
         cap = cv2.VideoCapture(video_path)
-        stage = None
+        state = 'sit'  # Initial state
         counter_list = [0]
         # Total Frame count
         if args.hide is False:
@@ -96,7 +95,7 @@ def run(args):
             original_video_width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
             original_video_height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
             fps = int(cap.get(cv2.CAP_PROP_FPS))
-            
+
             # path to save videos
             os.makedirs(os.path.join('runs', 'detect'), exist_ok=True)
             if not str(video_path).isnumeric():
@@ -109,12 +108,12 @@ def run(args):
                         break
                     else:
                         c += 1
-            out_vid = cv2.VideoWriter(path_save, 
-                                cv2.VideoWriter_fourcc(*'mp4v'),
-                                fps, (original_video_width, original_video_height))
+            out_vid = cv2.VideoWriter(path_save,
+                                      cv2.VideoWriter_fourcc(*'mp4v'),
+                                      fps, (original_video_width, original_video_height))
 
         p_time = 0
-        
+
         while True:
             success, img = cap.read()
             if not success:
@@ -123,18 +122,17 @@ def run(args):
 
             # FPS
             c_time = time.time()
-            fps = 1/(c_time-p_time)
+            fps = 1 / (c_time - p_time)
             print('FPS: ', fps)
             p_time = c_time
-          
-            counter_list[0] = get_inference_sts(img, model, saved_model, class_names, col_names, args.conf, colors,
-                                            counter_list, stage)
+
+            state = get_inference_sts(img, model, saved_model, class_names, col_names, args.conf, colors,
+                                      counter_list, state)
 
             if args.hide is False:
                 frame_count += 1
                 print(f'Frames Completed: {frame_count}/{length}')
 
-            
             # Write Video
             if args.save or args.hide is False:
                 out_vid.write(img)
@@ -144,11 +142,10 @@ def run(args):
                 cv2.imshow('img', img)
                 if cv2.waitKey(1) & 0xFF == ord('q'):
                     break
-            
 
         cap.release()
         if args.save or args.hide is False:
             out_vid.release()
-            print(f"[INFO] Outout Video Saved in {path_save}")
+            print(f"[INFO] Output Video Saved in {path_save}")
         if args.hide:
             cv2.destroyAllWindows()
