@@ -58,7 +58,9 @@ def run(args):
 
     if args.source.endswith('.jpg') or args.source.endswith('.jpeg') or args.source.endswith('.png'):
         img = cv2.imread(args.source)
-        get_inference_sts(img,model,saved_model,class_names,col_names,args.conf,colors)
+        # get_inference_sts(img,model,saved_model,class_names,col_names,args.conf,colors)
+        counter_list = [0]
+        get_inference_sts(img, model, saved_model, class_names, col_names, args.conf, colors, counter_list, None)
 
         # save Image
         if args.save or args.hide is False:
@@ -81,7 +83,8 @@ def run(args):
         if video_path.isnumeric():
             video_path = int(video_path)
         cap = cv2.VideoCapture(video_path)
-
+        stage = None
+        counter_list = [0]
         # Total Frame count
         if args.hide is False:
             length = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
@@ -123,8 +126,10 @@ def run(args):
             fps = 1/(c_time-p_time)
             print('FPS: ', fps)
             p_time = c_time
+          
+            counter_list[0] = get_inference_sts(img, model, saved_model, class_names, col_names, args.conf, colors,
+                                            counter_list, stage)
 
-            get_inference_sts(img,model,saved_model,class_names,col_names,args.conf,colors)
             if args.hide is False:
                 frame_count += 1
                 print(f'Frames Completed: {frame_count}/{length}')
