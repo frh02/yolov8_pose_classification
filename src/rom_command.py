@@ -8,65 +8,69 @@ from inference_rom import get_inference_rom
 import json
 import random
 
+
 def configure(parser_rom):
     parser_rom.add_argument(
-        "-m",
-        "--model", 
-        type=str, 
-        required=True,
-        help="path to saved keras model"
+        "-m", "--model", type=str, required=True, help="path to saved keras model"
     )
     parser_rom.add_argument(
-        "-c", 
-        "--conf", 
-        type=float, 
-        default=0.25,
-        help="path to saved keras model"
-        )
-    parser_rom.add_argument("-s", "--source", type=str, required=True,
-                            help="path to video/cam/RTSP")
-    parser_rom.add_argument("--save", action='store_true',
-                            help="Save video")
-    parser_rom.add_argument("--hide", action='store_false',
-                            help="to hide inference window")
+        "-c", "--conf", type=float, default=0.25, help="path to saved keras model"
+    )
     parser_rom.add_argument(
-        "-t", 
-        "--threshold", 
-        type=float, 
+        "-s", "--source", type=str, required=True, help="path to video/cam/RTSP"
+    )
+    parser_rom.add_argument("--save", action="store_true", help="Save video")
+    parser_rom.add_argument(
+        "--hide", action="store_false", help="to hide inference window"
+    )
+    parser_rom.add_argument(
+        "-t",
+        "--threshold",
+        type=float,
         default=0.5,
-        help="threshold for detecting person"
-        )
+        help="threshold for detecting person",
+    )
     parser_rom.add_argument(
         "-p",
-        "--pose", 
+        "--pose",
         type=str,
         choices=[
-        'yolov8n-pose', 'yolov8s-pose', 'yolov8m-pose', 
-        'yolov8l-pose', 'yolov8x-pose', 'yolov8x-pose-p6'
+            "yolov8n-pose",
+            "yolov8s-pose",
+            "yolov8m-pose",
+            "yolov8l-pose",
+            "yolov8x-pose",
+            "yolov8x-pose-p6",
         ],
-        default='yolov8n-pose',
-        help="choose type of yolov8 pose model"
-        )
+        default="yolov8n-pose",
+        help="choose type of yolov8 pose model",
+    )
+
+
 def run(args):
     model = YOLO(f"{args.pose}.pt")
 
-    if args.source.endswith('.jpg') or args.source.endswith('.jpeg') or args.source.endswith('.png'):
+    if (
+        args.source.endswith(".jpg")
+        or args.source.endswith(".jpeg")
+        or args.source.endswith(".png")
+    ):
         img = cv2.imread(args.source)
         counter_list = [0]
-        state = 'sit'  # Initial state
+        state = "sit"  # Initial state
         get_inference_rom(img, model)
 
         # save Image
         if args.save or args.hide is False:
-            os.makedirs(os.path.join('runs', 'detect'), exist_ok=True)
-            path_save = os.path.join('runs', 'detect', os.path.split(args.source)[1])
+            os.makedirs(os.path.join("runs", "detect"), exist_ok=True)
+            path_save = os.path.join("runs", "detect", os.path.split(args.source)[1])
             cv2.imwrite(path_save, img)
             print(f"[INFO] Saved Image: {path_save}")
 
         # Hide video
         if args.hide:
-            cv2.imshow('img', img)
-            if cv2.waitKey(0) & 0xFF == ord('q'):
+            cv2.imshow("img", img)
+            if cv2.waitKey(0) & 0xFF == ord("q"):
                 cv2.destroyAllWindows()
 
     # Inference on Video/Cam/RTSP
@@ -77,7 +81,7 @@ def run(args):
         if video_path.isnumeric():
             video_path = int(video_path)
         cap = cv2.VideoCapture(video_path)
-        state = 'sit'  # Initial state
+        state = "sit"  # Initial state
         counter_list = [0]
         # Total Frame count
         if args.hide is False:
@@ -92,40 +96,45 @@ def run(args):
             fps = int(cap.get(cv2.CAP_PROP_FPS))
 
             # path to save videos
-            os.makedirs(os.path.join('runs', 'detect'), exist_ok=True)
+            os.makedirs(os.path.join("runs", "detect"), exist_ok=True)
             if not str(video_path).isnumeric():
-                path_save = os.path.join('runs', 'detect', os.path.split(video_path)[1])
+                path_save = os.path.join("runs", "detect", os.path.split(video_path)[1])
             else:
                 c = 0
                 while True:
-                    if not os.path.exists(os.path.join('runs', 'detect', f'cam{c}.mp4')):
-                        path_save = os.path.join('runs', 'detect', f'cam{c}.mp4')
+                    if not os.path.exists(
+                        os.path.join("runs", "detect", f"cam{c}.mp4")
+                    ):
+                        path_save = os.path.join("runs", "detect", f"cam{c}.mp4")
                         break
                     else:
                         c += 1
-            out_vid = cv2.VideoWriter(path_save,
-                                      cv2.VideoWriter_fourcc(*'mp4v'),
-                                      fps, (original_video_width, original_video_height))
+            out_vid = cv2.VideoWriter(
+                path_save,
+                cv2.VideoWriter_fourcc(*"mp4v"),
+                fps,
+                (original_video_width, original_video_height),
+            )
 
         p_time = 0
 
         while True:
             success, img = cap.read()
             if not success:
-                print('[INFO] Failed to Read...')
+                print("[INFO] Failed to Read...")
                 break
 
             # FPS
             c_time = time.time()
             fps = 1 / (c_time - p_time)
-            print('FPS: ', fps)
+            print("FPS: ", fps)
             p_time = c_time
 
             get_inference_rom(img, model)
 
             if args.hide is False:
                 frame_count += 1
-                print(f'Frames Completed: {frame_count}/{length}')
+                print(f"Frames Completed: {frame_count}/{length}")
 
             # Write Video
             if args.save or args.hide is False:
@@ -133,8 +142,8 @@ def run(args):
 
             # Hide video
             if args.hide:
-                cv2.imshow('img', img)
-                if cv2.waitKey(1) & 0xFF == ord('q'):
+                cv2.imshow("img", img)
+                if cv2.waitKey(1) & 0xFF == ord("q"):
                     break
 
         cap.release()

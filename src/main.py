@@ -24,21 +24,23 @@ print("-----------------------------")
 
 args = parser.parse_args()
 
+
 def print_help():
-  print("Available commands:\n")
-  print("\tposalyzer tug")
-  print("\tposalyzer sts")
-  print("\tposalyzer help")
-  print()
-  print("For help on a specific command, type: posalyzer COMMAND --help")
-  sys.exit()
+    print("Available commands:\n")
+    print("\tposalyzer tug")
+    print("\tposalyzer sts")
+    print("\tposalyzer help")
+    print()
+    print("For help on a specific command, type: posalyzer COMMAND --help")
+    sys.exit()
+
 
 if args.command == "tug":
-  tug_command.run(args)
+    tug_command.run(args)
 elif args.command == "sts":
-  sts_command.run(args)
+    sts_command.run(args)
 elif args.command == "rom":
-  rom_command.run(args)
+    rom_command.run(args)
 elif args.command is None:
-  parser.print_help()
-  sys.exit(1)
+    parser.print_help()
+    sys.exit(1)
