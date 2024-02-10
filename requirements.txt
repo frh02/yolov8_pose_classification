@@ -3,3 +3,4 @@ ultralytics>=8.0.81
 pandas
 scikit-learn
 pydantic
+black

@@ -1,47 +1,60 @@
 from keypoints_detection import *
 import pandas as pd
 import cv2
-from utils import calculate_angle,plot_skeleton_kpts
+from utils import calculate_angle, plot_skeleton_kpts
 
 
 def get_inference_rom(img, model):
-  detector = DetectKeypoint()  # Instantiate the keypoint detector
+    detector = DetectKeypoint()  # Instantiate the keypoint detector
 
-  # Call the model to get the keypoint results
-  results = model.predict(img)
-  
-  # Iterate through the results
-  for result in results:
-    for box, pose in zip(result.boxes, result.keypoints.data):
-      # Call the keypoint extractor to get x and y coordinates
-      keypoint_data = detector.get_xy_keypoint(result)
+    # Call the model to get the keypoint results
+    results = model.predict(img)
 
-      # Extract x and y coordinates for specific keypoints
-      hip_right = (keypoint_data[22], keypoint_data[23])  # Right hip
-      hip_left = (keypoint_data[24], keypoint_data[25])   # Left hip
-      ankle_right = (keypoint_data[30], keypoint_data[31])  # Right ankle
-      ankle_left = (keypoint_data[32], keypoint_data[33])   # Left ankle
-      knee_right = (keypoint_data[28], keypoint_data[29])  # Right knee
-      knee_left = (keypoint_data[26], keypoint_data[27])   # Left knee
-      
-      # Print or process the extracted coordinates as needed
-      print("Hip Right:", hip_right)
-      print("Hip Left:", hip_left)
-      print("Ankle Right:", ankle_right)
-      print("Ankle Left:", ankle_left)
-      print("Knee Right:", knee_right)
-      print("Knee Left:", knee_left)
-      angle = calculate_angle(hip_left, knee_left, ankle_left)
-      angle_r = calculate_angle(hip_right, knee_right, ankle_right)
-      print('Angle for the right knee is:', round(angle_r, 1))
-      print('Angle for the left knee is:', round(angle, 1))
-      # angle
-      plot_skeleton_kpts(img, pose, radius=5, line_thick=2, confi=0.5)
-      cv2.putText(img, str(round(angle, 1)), tuple(np.multiply(knee_left, [640, 480]).astype(
-          int)), cv2.FONT_HERSHEY_SIMPLEX, 1.5, (255, 153, 255), 2, cv2.LINE_AA)
+    # Iterate through the results
+    for result in results:
+        for box, pose in zip(result.boxes, result.keypoints.data):
+            # Call the keypoint extractor to get x and y coordinates
+            keypoint_data = detector.get_xy_keypoint(result)
 
-      cv2.putText(img, str(round(angle_r, 1)), tuple(np.multiply(knee_right, [640, 480]).astype(int)),
-                  cv2.FONT_HERSHEY_SIMPLEX, 1.5, (150,
-                                                  150, 0), 2, cv2.LINE_AA
-                  )
+            # Extract x and y coordinates for specific keypoints
+            hip_right = (keypoint_data[22], keypoint_data[23])  # Right hip
+            hip_left = (keypoint_data[24], keypoint_data[25])  # Left hip
+            ankle_right = (keypoint_data[30], keypoint_data[31])  # Right ankle
+            ankle_left = (keypoint_data[32], keypoint_data[33])  # Left ankle
+            knee_right = (keypoint_data[28], keypoint_data[29])  # Right knee
+            knee_left = (keypoint_data[26], keypoint_data[27])  # Left knee
 
+            # Print or process the extracted coordinates as needed
+            print("Hip Right:", hip_right)
+            print("Hip Left:", hip_left)
+            print("Ankle Right:", ankle_right)
+            print("Ankle Left:", ankle_left)
+            print("Knee Right:", knee_right)
+            print("Knee Left:", knee_left)
+            angle = calculate_angle(hip_left, knee_left, ankle_left)
+            angle_r = calculate_angle(hip_right, knee_right, ankle_right)
+            print("Angle for the right knee is:", round(angle_r, 1))
+            print("Angle for the left knee is:", round(angle, 1))
+            # angle
+            plot_skeleton_kpts(img, pose, radius=5, line_thick=2, confi=0.5)
+            cv2.putText(
+                img,
+                str(round(angle, 1)),
+                tuple(np.multiply(knee_left, [640, 480]).astype(int)),
+                cv2.FONT_HERSHEY_SIMPLEX,
+                1.5,
+                (255, 153, 255),
+                2,
+                cv2.LINE_AA,
+            )
+
+            cv2.putText(
+                img,
+                str(round(angle_r, 1)),
+                tuple(np.multiply(knee_right, [640, 480]).astype(int)),
+                cv2.FONT_HERSHEY_SIMPLEX,
+                1.5,
+                (150, 150, 0),
+                2,
+                cv2.LINE_AA,
+            )
