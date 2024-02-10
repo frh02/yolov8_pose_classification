@@ -99,7 +99,7 @@ def load_model_ext(filepath):
         meta_data = f.attrs.get('my_meta_data')
     f.close()
     return model, meta_data
-   
+
 
 def save_model_ext(model, filepath, overwrite=True, meta_data=None):
     save_model(model, filepath, overwrite)
@@ -130,14 +130,3 @@ def calculate_angle(A, B, C):
     angle_deg = math.degrees(angle_rad)
 
     return angle_deg
-
-def calculate_hip_angle(pose):
-    # Replace these indices with the actual indices of hip keypoints in your pose
-    left_hip = pose[11]
-    center_hip = pose[8]
-    right_hip = pose[12]
-
-    # Calculate angle between left hip, center hip, and right hip
-    hip_angle = calculate_angle(left_hip, center_hip, right_hip)
-
-    return hip_angle

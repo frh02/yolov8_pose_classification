@@ -3,6 +3,7 @@ import sys
 
 import tug_command
 import sts_command
+import rom_command
 
 parser = argparse.ArgumentParser(prog="posalyzer")
 subparsers = parser.add_subparsers(dest="command", metavar="command")
@@ -12,6 +13,9 @@ tug_command.configure(parser_tug)
 
 parser_sts = subparsers.add_parser("sts")
 sts_command.configure(parser_sts)
+
+parser_rom = subparsers.add_parser("rom")
+rom_command.configure(parser_rom)
 
 print("-----------------------------")
 print("    Nightingale Posalyzer    ")
@@ -33,6 +37,8 @@ if args.command == "tug":
   tug_command.run(args)
 elif args.command == "sts":
   sts_command.run(args)
+elif args.command == "rom":
+  rom_command.run(args)
 elif args.command is None:
   parser.print_help()
   sys.exit(1)
