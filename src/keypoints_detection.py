@@ -28,7 +28,7 @@ class GetKeypoint(BaseModel):
 
 
 class DetectKeypoint:
-    def __init__(self, yolov8_model="yolov8m-pose"):
+    def __init__(self, yolov8_model="yolov8x-pose"):
         self.yolov8_model = yolov8_model
         self.get_keypoint = GetKeypoint()
         self.__load_model()

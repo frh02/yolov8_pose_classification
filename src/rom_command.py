@@ -5,30 +5,14 @@ import time
 import os
 from config import *
 from inference_rom import get_inference_rom
-import json
-import random
-
 
 def configure(parser_rom):
-    parser_rom.add_argument(
-        "-m", "--model", type=str, required=True, help="path to saved keras model"
-    )
-    parser_rom.add_argument(
-        "-c", "--conf", type=float, default=0.25, help="path to saved keras model"
-    )
     parser_rom.add_argument(
         "-s", "--source", type=str, required=True, help="path to video/cam/RTSP"
     )
     parser_rom.add_argument("--save", action="store_true", help="Save video")
     parser_rom.add_argument(
         "--hide", action="store_false", help="to hide inference window"
-    )
-    parser_rom.add_argument(
-        "-t",
-        "--threshold",
-        type=float,
-        default=0.5,
-        help="threshold for detecting person",
     )
     parser_rom.add_argument(
         "-p",
@@ -49,15 +33,13 @@ def configure(parser_rom):
 
 def run(args):
     model = YOLO(f"{args.pose}.pt")
-
+    
     if (
         args.source.endswith(".jpg")
         or args.source.endswith(".jpeg")
         or args.source.endswith(".png")
     ):
         img = cv2.imread(args.source)
-        counter_list = [0]
-        state = "sit"  # Initial state
         get_inference_rom(img, model)
 
         # save Image
@@ -75,14 +57,11 @@ def run(args):
 
     # Inference on Video/Cam/RTSP
     else:
-
         # Load video/cam/RTSP
         video_path = args.source
         if video_path.isnumeric():
             video_path = int(video_path)
         cap = cv2.VideoCapture(video_path)
-        state = "sit"  # Initial state
-        counter_list = [0]
         # Total Frame count
         if args.hide is False:
             length = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))

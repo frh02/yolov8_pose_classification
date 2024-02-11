@@ -17,9 +17,9 @@ sts_command.configure(parser_sts)
 parser_rom = subparsers.add_parser("rom")
 rom_command.configure(parser_rom)
 
-print("-----------------------------")
-print("    Nightingale Posalyzer    ")
-print("-----------------------------")
+print("--------------------------------")
+print(" 🧘 Nightingale Posalyzer  🧘 ")
+print("--------------------------------")
 
 
 args = parser.parse_args()
