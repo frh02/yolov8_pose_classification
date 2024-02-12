@@ -110,6 +110,7 @@ def plot_skeleton_kpts(im, kpts, radius=5, shape=(640, 640), confi=0.5, line_thi
             lineType=cv2.LINE_AA,
         )
 
+
 def resize_image(img, target_size):
     """
     Resize image to target size while maintaining aspect ratio.
@@ -124,6 +125,7 @@ def resize_image(img, target_size):
         new_w = int(w * (target_h / h))
     resized_img = cv2.resize(img, (new_w, new_h))
     return resized_img
+
 
 # Normalize Keypoints
 def norm_kpts(lm_list, torso_size_multiplier=2.5):
@@ -228,3 +230,25 @@ def calculate_angle(A, B, C):
     angle_deg = math.degrees(angle_rad)
 
     return angle_deg
+
+
+def draw_angle_display(img, knee_point, angle, color):
+    center = tuple(
+        np.multiply(knee_point, [640, 480]).astype(int)
+    )  # Convert knee point to image coordinates
+    radius = 50  # Radius of the semicircle
+    thickness = 2  # Thickness of the arc
+    start_angle = -90  # Start angle for the arc
+    end_angle = start_angle + angle  # End angle based on the angle value
+
+    # Draw the arc representing the angle
+    cv2.ellipse(
+        img,
+        center,
+        (radius, radius),
+        0,  # Angle of rotation of the ellipse (not needed for a circle)
+        start_angle,
+        end_angle,
+        color,
+        thickness,
+    )
