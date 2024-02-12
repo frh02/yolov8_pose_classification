@@ -1,11 +1,11 @@
-from keypoints_detection import *
-import pandas as pd
+from keypoints_detection import *  # noqa: F403
 import cv2
+import numpy as np
 from utils import calculate_angle, plot_skeleton_kpts
 
 
 def get_inference_rom(img, model):
-    detector = DetectKeypoint()  # Instantiate the keypoint detector
+    detector = DetectKeypoint()  # Instantiate the keypoint detector  # noqa: F405
 
     # Call the model to get the keypoint results
     results = model.predict(img)
@@ -40,7 +40,7 @@ def get_inference_rom(img, model):
             cv2.putText(
                 img,
                 str(round(angle, 1)),
-                tuple(np.multiply(knee_left, [640, 480]).astype(int)),
+                tuple(np.multiply(knee_left, [640, 480]).astype(int)),  # noqa: F405
                 cv2.FONT_HERSHEY_SIMPLEX,
                 1.5,
                 (255, 153, 255),
@@ -51,7 +51,7 @@ def get_inference_rom(img, model):
             cv2.putText(
                 img,
                 str(round(angle_r, 1)),
-                tuple(np.multiply(knee_right, [640, 480]).astype(int)),
+                tuple(np.multiply(knee_right, [640, 480]).astype(int)),  # noqa: F405
                 cv2.FONT_HERSHEY_SIMPLEX,
                 1.5,
                 (150, 150, 0),

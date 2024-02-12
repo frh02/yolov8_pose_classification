@@ -3,11 +3,18 @@ import pandas as pd
 import cv2
 import time
 
-from config import *
+from config import *  # noqa: F403
 
 
 def get_inference(img, model, saved_model, class_names, col_names, conf, colors, fps):
-    global sit_start_time, stand_start_time, sit_stand_transition_time, count, first_sit_pose_detected, current_pose_state, sit_to_stand_start_time
+    global \
+        sit_start_time, \
+        stand_start_time, \
+        sit_stand_transition_time, \
+        count, \
+        first_sit_pose_detected, \
+        current_pose_state, \
+        sit_to_stand_start_time
     results = model.predict(img)
     for result in results:
         for box, pose in zip(result.boxes, result.keypoints.data):
@@ -34,7 +41,7 @@ def get_inference(img, model, saved_model, class_names, col_names, conf, colors,
                             # Record start time for the corresponding pose
                             if pose_class == "sit":
                                 sit_start_time = time.time()
-                                sit_frame_number.append(count)
+                                sit_frame_number.append(count)  # noqa: F405
                                 # Start the sit to stand timer only if the current pose is sit
                                 if (
                                     current_pose_state == "sit"
@@ -42,7 +49,7 @@ def get_inference(img, model, saved_model, class_names, col_names, conf, colors,
                                 ):
                                     sit_to_stand_start_time = time.time()
                                     first_sit_pose_detected = True
-                                sit_frame_number.append(count)
+                                sit_frame_number.append(count)  # noqa: F405
                                 # Start the sit to stand timer only if the current pose is sit
                                 if (
                                     current_pose_state == "sit"
@@ -52,8 +59,8 @@ def get_inference(img, model, saved_model, class_names, col_names, conf, colors,
                                     first_sit_pose_detected = True
                             elif pose_class == "stand":
                                 stand_start_time = time.time()
-                                stand_frame_number.append(count)
-                                stand_frame_number.append(count)
+                                stand_frame_number.append(count)  # noqa: F405
+                                stand_frame_number.append(count)  # noqa: F405
 
                             # Check for a transition from Sit to Stand or vice versa
                             if (

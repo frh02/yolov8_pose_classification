@@ -1,11 +1,11 @@
 from ultralytics import YOLO
-from utils import resize_image
 import torch
 import cv2
 import time
 import os
-from config import *
+from config import *  # noqa: F403
 from inference_rom import get_inference_rom
+
 
 def configure(parser_rom):
     parser_rom.add_argument(
@@ -113,7 +113,7 @@ def run(args):
             print("FPS: ", fps)
             p_time = c_time
             # img = cv2.resize(img, target_size)
-            get_inference_rom(img,model)
+            get_inference_rom(img, model)
 
             if args.hide is False:
                 frame_count += 1

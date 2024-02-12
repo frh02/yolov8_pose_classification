@@ -3,7 +3,7 @@ from utils import load_model_ext
 import cv2
 import time
 import os
-from config import *
+from config import *  # noqa: F403
 from inference_sts import get_inference_sts
 import json
 import random
@@ -68,7 +68,7 @@ def run(args):
             model,
             saved_model,
             class_names,
-            col_names,
+            col_names,  # noqa: F405
             args.conf,
             colors,
             counter_list,
@@ -90,7 +90,6 @@ def run(args):
 
     # Inference on Video/Cam/RTSP
     else:
-
         # Load video/cam/RTSP
         video_path = args.source
         if video_path.isnumeric():
@@ -150,7 +149,7 @@ def run(args):
                 model,
                 saved_model,
                 class_names,
-                col_names,
+                col_names,  # noqa: F405
                 args.conf,
                 colors,
                 counter_list,
