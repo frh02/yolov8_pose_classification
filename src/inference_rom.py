@@ -1,7 +1,7 @@
 from keypoints_detection import *  # noqa: F403
 import cv2
 import numpy as np
-from utils import calculate_angle, plot_skeleton_kpts
+from utils import calculate_angle, plot_skeleton_kpts, draw_angle_display
 
 
 def get_inference_rom(img, model):
@@ -58,3 +58,11 @@ def get_inference_rom(img, model):
                 2,
                 cv2.LINE_AA,
             )
+
+            # Inside your loop where you calculate and print the angles, add the following lines to draw the angle displays
+            draw_angle_display(
+                img, knee_left, angle, (255, 153, 255)
+            )  # Draw the angle display for the left knee
+            draw_angle_display(
+                img, knee_right, angle_r, (150, 150, 0)
+            )  # Draw the angle display for the right knee
