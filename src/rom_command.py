@@ -1,5 +1,6 @@
 from ultralytics import YOLO
-from utils import load_model_ext
+from utils import resize_image
+import torch
 import cv2
 import time
 import os
@@ -32,8 +33,11 @@ def configure(parser_rom):
 
 
 def run(args):
+    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+    print(device)
     model = YOLO(f"{args.pose}.pt")
-    
+    model.to(device)
+    # target_size = (600,600)
     if (
         args.source.endswith(".jpg")
         or args.source.endswith(".jpeg")
@@ -108,8 +112,8 @@ def run(args):
             fps = 1 / (c_time - p_time)
             print("FPS: ", fps)
             p_time = c_time
-
-            get_inference_rom(img, model)
+            # img = cv2.resize(img, target_size)
+            get_inference_rom(img,model)
 
             if args.hide is False:
                 frame_count += 1

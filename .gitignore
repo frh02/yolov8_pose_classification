@@ -162,6 +162,7 @@ cython_debug/
 # Models
 *.h5
 *.pt
+*.onnx
 
 # csv data
 *.csv
@@ -179,3 +180,4 @@ runs/
 dataset/
 Data/
 models/
+yolov8m-pose_openvino_model/

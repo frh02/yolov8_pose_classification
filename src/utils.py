@@ -110,6 +110,20 @@ def plot_skeleton_kpts(im, kpts, radius=5, shape=(640, 640), confi=0.5, line_thi
             lineType=cv2.LINE_AA,
         )
 
+def resize_image(img, target_size):
+    """
+    Resize image to target size while maintaining aspect ratio.
+    """
+    h, w = img.shape[:2]
+    target_w, target_h = target_size
+    if w / h > target_w / target_h:
+        new_w = target_w
+        new_h = int(h * (target_w / w))
+    else:
+        new_h = target_h
+        new_w = int(w * (target_h / h))
+    resized_img = cv2.resize(img, (new_w, new_h))
+    return resized_img
 
 # Normalize Keypoints
 def norm_kpts(lm_list, torso_size_multiplier=2.5):
