@@ -3,7 +3,7 @@ from utils import load_model_ext
 import cv2
 import time
 import os
-from config import *
+from config import *  # noqa: F403
 from inference import get_inference
 import json
 import random
@@ -62,7 +62,14 @@ def run(args):
     ):
         img = cv2.imread(args.source)
         get_inference(
-            img, model, saved_model, class_names, col_names, args.conf, colors, fps
+            img,
+            model,
+            saved_model,
+            class_names,
+            col_names,  # noqa: F405
+            args.conf,
+            colors,
+            fps,  # noqa: F405
         )
 
         # save Image
@@ -133,7 +140,14 @@ def run(args):
             p_time = c_time
 
             get_inference(
-                img, model, saved_model, class_names, col_names, args.conf, colors, fps
+                img,
+                model,
+                saved_model,
+                class_names,
+                col_names,  # noqa: F405
+                args.conf,
+                colors,
+                fps,  # noqa: F405
             )
             if args.hide is False:
                 frame_count += 1
