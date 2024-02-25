@@ -181,3 +181,4 @@ dataset/
 Data/
 models/
 yolov8m-pose_openvino_model/
+yolov8n-pose_saved_model/

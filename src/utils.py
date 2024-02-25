@@ -252,3 +252,66 @@ def draw_angle_display(img, knee_point, angle, color):
         color,
         thickness,
     )
+
+
+def calculate_angle_new(a,b,c):
+    a = np.array(a) # First
+    b = np.array(b) # Mid
+    c = np.array(c) # End
+    
+    radians = np.arctan2(c[1]-b[1], c[0]-b[0]) - np.arctan2(a[1]-b[1], a[0]-b[0])
+    # angle = np.abs(radians*180.0/np.pi)
+    # angle = np.abs(radians*180/np.pi)
+    # angle =  angle % 360; 
+
+    
+    # angle = (angle + 360) % 360;  
+
+     
+    # if (angle < 180) :
+    #     angle -= 180
+        
+    # return abs(angle)
+    ang = np.degrees(radians)
+    #####################
+    if ang<0:
+        ang=abs(180+ang)
+        
+    elif ang>0 and ang<180:
+        ang=180-ang
+    elif ang>=180:
+        ang=abs(180-ang)
+    ######################
+    return ang# + 360 if ang < 0 else ang
+
+
+def image_resize(image, width=None, height=None, inter=cv2.INTER_AREA):
+    # initialize the dimensions of the image to be resized and
+    # grab the image size
+    dim = None
+    (h, w) = image.shape[:2]
+
+    # if both the width and height are None, then return the
+    # original image
+    if width is None and height is None:
+        return image
+
+    # check to see if the width is None
+    if width is None:
+        # calculate the ratio of the height and construct the
+        # dimensions
+        r = height / float(h)
+        dim = (int(w * r), height)
+
+    # otherwise, the height is None
+    else:
+        # calculate the ratio of the width and construct the
+        # dimensions
+        r = width / float(w)
+        dim = (width, int(h * r))
+
+    # resize the image
+    resized = cv2.resize(image, dim, interpolation=inter)
+
+    # return the resized image
+    return resized
