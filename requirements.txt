@@ -1,5 +1,5 @@
-tensorflow==2.12.0
-ultralytics>=8.0.81
+tensorflow
+ultralytics
 pandas
 scikit-learn
 pydantic
@@ -7,3 +7,7 @@ black
 openvino
 onnx
 openvino-dev
+MarkupSafe==2.0.1
+matplotlib==3.4.3
+mediapipe==0.9.3.0
+flask

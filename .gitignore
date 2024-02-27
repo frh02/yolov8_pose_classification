@@ -163,6 +163,8 @@ cython_debug/
 *.h5
 *.pt
 *.onnx
+*.DS_Store
+*.pkl
 
 # csv data
 *.csv
@@ -182,3 +184,4 @@ Data/
 models/
 yolov8m-pose_openvino_model/
 yolov8n-pose_saved_model/
+model/

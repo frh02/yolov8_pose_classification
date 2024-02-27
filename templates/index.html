@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flask App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <nav>
+        <ul class="options-container">
+            <li><a href="/rom">Range of Motion</a></li>
+            <li><a href="/sts">Sit to Stand</a></li>
+            <li><a href="/tug">Timed up and Go</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <h1>Nightingale Tool</h1>
+        <p>This is the home page. You can add some introductory text here.</p>
+    </div>
+</body>
+</html>

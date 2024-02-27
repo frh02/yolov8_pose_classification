@@ -1,0 +1,100 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f2f2f2;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding-top: 10px; /* Maintain existing padding-top value */
+    padding-bottom: 500px; /* Increase padding-bottom value to increase length */
+    padding-left: 20px; /* Maintain existing padding-left value */
+    padding-right: 20px; /* Maintain existing padding-right value */
+    background-color: rgba(128, 128, 128, 0.3); /* Adjust the alpha value (0.5) to control opacity */
+    border-radius: 10px; /* Adjust the value to control the amount of curvature */
+} 
+
+h1 {
+    color: #333;
+    text-align: center;
+}
+
+h2 {
+    color: #555;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    margin-bottom: 10px;
+}
+
+a {
+    text-decoration: none;
+    color: #007bff;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+form {
+    margin-top: 20px;
+}
+
+input[type="file"] {
+    margin-right: 10px;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+nav {
+    background-color: rgba(0, 123, 255, 0.7); /* Adjust the alpha value as needed */
+    margin-bottom: 50px; /* Adjust the margin-bottom value as needed */    
+    border-radius: 5px; /* Add border-radius to create curved corners */
+}
+
+nav .options-container {
+    text-align: left; /* Align the content to the right within the navbar */
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex; /* Use flexbox to display items horizontally */
+    
+}
+
+li {
+    margin-right: 20px; /* Add some spacing between menu items */
+    align-items: right;
+}
+
+
+a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-family: Arial, sans-serif; /* Change font family here */
+}
+
+a:hover {
+    background-color: rgba(0, 86, 179, 0.8); /* Adjust the alpha value for hover color */
+}

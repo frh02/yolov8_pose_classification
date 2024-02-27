@@ -1,0 +1,14 @@
+/* custom.css */
+
+ul.option-list a {
+    color: black;
+}
+
+.option-list {
+    position: absolute;
+    bottom: 250px; /* Adjust as needed */
+    left: 50%;
+    transform: translateX(-50%);
+    width: auto;
+    text-align: center;
+}
