@@ -59,9 +59,8 @@ while True:
         c += 1
         continue
 
-# Add a checkpoint callback to store the checkpoint that has the highest
-# validation accuracy.
-ckpt_path = os.path.join(path_save, "weight-{epoch:02d}-{val_accuracy:.2f}.h5")
+
+ckpt_path = os.path.join(path_save, "weight-{epoch:02d}-{val_accuracy:.2f}.keras")  # Change file extension to '.keras'
 checkpoint = keras.callbacks.ModelCheckpoint(
     ckpt_path, monitor="val_accuracy", verbose=1, save_best_only=True, mode="max"
 )
@@ -81,6 +80,8 @@ history = model.fit(
 print("[INFO] Model Training Completed")
 save_model_ext(model, os.path.join(path_save, "model.h5"), meta_data=labels_string)
 print(f"[INFO] Model Successfully Saved \033[1m model.h5 \033[0;0m in {path_save}")
+
+
 
 # Plot History
 metric_loss = history.history["loss"]

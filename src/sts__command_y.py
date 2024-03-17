@@ -49,6 +49,7 @@ def configure(parser_tug):
 
 def run(args):
     model = YOLO(f"{args.pose}.pt")
+    print(f"This is the yolo modle, {args.pose}.pt")
 
     # Keras pose model
     saved_model, meta_str = load_model_ext(args.model)
@@ -91,9 +92,12 @@ def run(args):
     # Inference on Video/Cam/RTSP
     else:
         # Load video/cam/RTSP
+         # Find all .mp4 files in the processed folder
+    
         video_path = args.source
         if video_path.isnumeric():
             video_path = int(video_path)
+        
         cap = cv2.VideoCapture(video_path)
         state = "sit"  # Initial state
         counter_list = [0]

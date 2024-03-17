@@ -1,11 +1,13 @@
 import cv2
 import pandas as pd
 from utils import norm_kpts, plot_one_box, plot_skeleton_kpts
-from config import *  # noqa: F403
-def get_inference_sts(
+import time
+def get_inference_tug(
     img, model, saved_model, class_names, col_names, conf, colors, counter_list, state
 ):
     results = model.predict(img)
+    start_time = None  # Variable to track start time of TUG test
+    end_time = None  # Variable to track end time of TUG test
     for result in results:
         for box, pose in zip(result.boxes, result.keypoints.data):
             lm_list = []
@@ -32,15 +34,20 @@ def get_inference_sts(
 
                         # State machine to track pose changes
                         if state == "sit" and pose_class == "stand":
-                            state = "transition"
+                            if start_time is None:  # Record start time only once
+                                start_time = time.time()  # Record start time of TUG test
                         elif state == "stand" and pose_class == "sit":
-                            state = "transition"
+                            if start_time is not None and end_time is None:  # Record end time only once
+                                end_time = time.time()  # Record end time of TUG test
+                                tug_time = end_time - start_time  # Calculate TUG time
+                                print("Time taken for TUG:", tug_time)  # Output TUG time
+                                start_time = None  # Reset start time
+                                end_time = None  # Reset end time
                         elif state == "transition" and pose_class == "sit":
                             state = "sit"
                             counter_list[0] += 1
                         elif state == "transition" and pose_class == "stand":
                             state = "stand"
-
     cv2.putText(
         img,
         "Counter:",
