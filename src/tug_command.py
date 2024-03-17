@@ -69,7 +69,6 @@ def run(args):
             col_names,  # noqa: F405
             args.conf,
             colors,
-            fps,  # noqa: F405
         )
 
         # save Image
@@ -147,7 +146,6 @@ def run(args):
                 col_names,  # noqa: F405
                 args.conf,
                 colors,
-                fps,  # noqa: F405
             )
             if args.hide is False:
                 frame_count += 1

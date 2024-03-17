@@ -2,7 +2,7 @@ import argparse
 import sys
 
 import tug_command
-import sts_command
+import sts__command_y
 import rom_command
 
 parser = argparse.ArgumentParser(prog="posalyzer")
@@ -12,7 +12,7 @@ parser_tug = subparsers.add_parser("tug")
 tug_command.configure(parser_tug)
 
 parser_sts = subparsers.add_parser("sts")
-sts_command.configure(parser_sts)
+sts__command_y.configure(parser_sts)
 
 parser_rom = subparsers.add_parser("rom")
 rom_command.configure(parser_rom)
@@ -38,7 +38,7 @@ def print_help():
 if args.command == "tug":
     tug_command.run(args)
 elif args.command == "sts":
-    sts_command.run(args)
+    sts__command_y.run(args)
 elif args.command == "rom":
     rom_command.run(args)
 elif args.command is None:

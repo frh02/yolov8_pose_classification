@@ -126,8 +126,6 @@ def resize_image(img, target_size):
     resized_img = cv2.resize(img, (new_w, new_h))
     return resized_img
 
-
-# Normalize Keypoints
 def norm_kpts(lm_list, torso_size_multiplier=2.5):
     max_distance = 0
     center_x = (lm_list[12][0] + lm_list[11][0]) * 0.5  # right_hip  # left_hip
@@ -149,6 +147,10 @@ def norm_kpts(lm_list, torso_size_multiplier=2.5):
     )
     max_distance = max(torso_size * torso_size_multiplier, max_distance)
 
+    if max_distance == 0:  # Check if max_distance is zero
+        print("ZeroDivisionError: Skipping normalization for this frame")
+        return None
+
     pre_lm = list(
         np.array(
             [
@@ -162,7 +164,6 @@ def norm_kpts(lm_list, torso_size_multiplier=2.5):
     )
 
     return pre_lm
-
 
 def plot_one_box(x, img, color=None, label=None, line_thickness=3):
     # Plots one bounding box on image img
