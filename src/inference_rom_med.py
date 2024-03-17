@@ -7,12 +7,14 @@ mp_drawing = mp.solutions.drawing_utils
 mp_drawing_styles = mp.solutions.drawing_styles
 mp_pose = mp.solutions.pose
 
-DEMO_VIDEO = 'rom.mp4'
+# DEMO_VIDEO = 'rom.mp4'
 
 
 def video_pose():
     print("Opening")
-    vid = cv2.VideoCapture(DEMO_VIDEO)
+    # vid = cv2.VideoCapture(DEMO_VIDEO)
+    vid = cv2.VideoCapture(0)
+
 
     if not vid.isOpened():
         print("Error: Couldn't open the video.")

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sit to Stand</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='rom.css') }}">
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="/rom">Range of Motion</a></li>
+            <li><a href="/sts">Sit to Stand</a></li>
+            <li><a href="/tug">Timed up and Go</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <h1>Sit to Stand</h1>
+        <p>Select an option:</p>
+        <ul class="option-list">
+            <li><a href="#">Use an Image</a></li>
+            <li><a href="#">Use a Video</a></li>
+            <li><a href="#">Use Webcam</a></li>
+        </ul>
+    </div>
+</body>
+</html>

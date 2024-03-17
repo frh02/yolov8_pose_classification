@@ -10,3 +10,7 @@ openvino-dev
 opencv-python
 numpy
 mediapipe
+MarkupSafe==2.0.1
+matplotlib==3.4.3
+mediapipe==0.9.3.0
+flask
